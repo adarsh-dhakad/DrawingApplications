@@ -3,17 +3,20 @@ package com.example.drawingapplications
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 
 class DrawingView(context: Context, attrs: AttributeSet) :View(context,attrs){
-    private  var mDrawPath:CustomPath? = null
+
+
+    private var mDrawPath:CustomPath? = null
     private var mCanvasBitmap: Bitmap?=null
     private var mDrawPaint: Paint?=null
     private var mCanvasPaint: Paint? = null
     private var mBrushSize:Float = 0.toFloat()
     private var color =  Color.BLACK
-    private  var canvas: Canvas? = null
+    private var canvas: Canvas? = null
     private val mPaths = ArrayList<CustomPath>()
     private val mUndoPaths = ArrayList<CustomPath>()
 
@@ -106,6 +109,14 @@ class DrawingView(context: Context, attrs: AttributeSet) :View(context,attrs){
             mPaths.add(mUndoPaths.removeAt(mUndoPaths.size-1))
             invalidate()
         }
+    }
+     // set Brushsize
+    fun setSizeForBrush(newSize: Float) {
+        mBrushSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, newSize,
+            resources.displayMetrics
+        )
+        mDrawPaint!!.strokeWidth = mBrushSize
     }
 
     internal inner class CustomPath(var color:Int,
